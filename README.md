@@ -1,1 +1,1 @@
-# dj-hr-control
+hr-control
