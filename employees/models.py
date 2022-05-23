@@ -5,7 +5,7 @@ from django.forms import RegexField
 
 
 class Employee(models.Model):
-    id = models.UUIDField(primary_key=True, defaut=uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=150)
     phone_number = models.CharField(
         max_length=20,
