@@ -1,7 +1,7 @@
 from uuid import uuid4
 
+from django.core.validators import RegexValidator
 from django.db import models
-from django.forms import RegexField
 
 
 class Employee(models.Model):
@@ -9,13 +9,13 @@ class Employee(models.Model):
     name = models.CharField(max_length=150)
     phone_number = models.CharField(
         max_length=20,
-        validators=(
-            RegexField(
+        validators=[
+            RegexValidator(
                 regex=r"^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$",
                 message="The phone number must  follow the format: (xx) xxxxx-xxxx",
                 code=400,
             )
-        ),
+        ],
     )
 
     # contract = models.OneToOneField("contracts.Contract", on_delete=models.CASCADE)
