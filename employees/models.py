@@ -1,4 +1,3 @@
-import email
 from uuid import uuid4
 
 from django.core.validators import RegexValidator
@@ -22,6 +21,8 @@ class Employee(models.Model):
 
     # contract = models.OneToOneField("contracts.Contract", on_delete=models.CASCADE)
 
-    # personal_documents = models.OneToOneField("personal_documents.PersonalDocuments", on_delete=models.CASCADE)
+    personal_documents = models.OneToOneField(
+        "personal_documents.Personal_document", on_delete=models.CASCADE, null=True
+    )
 
     # address = models.ForeignKey("addresses.Address", on_delete=models.DO_NOTHING)
