@@ -5,13 +5,14 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
+from .permissions import IsRH
 from .models import Account
 from .serializers import LoginSerializer,AccountSerializer
 
     
 class AccountView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = []
+    permission_classes = [IsRH]
     queryset = Account.objects
     serializer_class = AccountSerializer
     
