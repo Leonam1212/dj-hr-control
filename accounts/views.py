@@ -17,8 +17,12 @@ class AccountView(generics.ListCreateAPIView):
     serializer_class = AccountSerializer
 
 class AccountUpdateAndDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsRH]
+
     queryset = Account.objects
     serializer_class = AccountSerializer
+    lookup_field = 'id'
 
 class LoginView(APIView):
     serializer_class = LoginSerializer
