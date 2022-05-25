@@ -20,7 +20,7 @@ class Employee(models.Model):
         ],
     )
 
-    # contract = models.OneToOneField("contracts.Contract", on_delete=models.CASCADE)
+    contract = models.OneToOneField("contracts.Contract", on_delete=models.CASCADE, null=True)
 
     # personal_documents = models.OneToOneField("personal_documents.PersonalDocuments", on_delete=models.CASCADE)
 
