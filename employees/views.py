@@ -8,7 +8,7 @@ class EmployeeView(generics.ListCreateAPIView):
     serializer_class = EmployeeSerializer
 
 
-class UpdateEmployeeView(generics.RetrieveUpdateDestroyAPIView):
+class UpdateDestroyEmployeeView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     lookup_field = "id"
