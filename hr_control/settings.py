@@ -45,6 +45,12 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken"]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    )
+}
+
 # Apps instalados
 
 MY_APPS = ["accounts", "employees", "contracts", "personal_documents", "candidates"]
