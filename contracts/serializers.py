@@ -1,9 +1,11 @@
+from contracts.models import Contract
 from rest_framework import serializers
 
-class ContractSerializer(serializers.Serializer):
-    id = serializers.CharField(read_only=True)
-    contract_type = serializers.CharField()
-    contract_duration = serializers.DateField()
-    salary = serializers.FloatField()
-    position = serializers.CharField()
-    work_shift = serializers.CharField()
+class ContractSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = "__all__"
+
+        extra_kwargs = {
+            "id": {"read_only": True}
+        }
