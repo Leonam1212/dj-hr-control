@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from personal_documents.models import Personal_document
+from personal_documents.serializers import PersonalDocumentSerializer
+
+class PersonalDocumentsView(generics.ListCreateAPIView):
+  queryset = Personal_document.objects.all()
+  serializer_class = PersonalDocumentSerializer
