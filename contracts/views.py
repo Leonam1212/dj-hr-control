@@ -1,9 +1,7 @@
-from django.core.exceptions import ObjectDoesNotExist
-from django.forms import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.serializers import ModelSerializer
 
 from employees.models import Employee
 from .models import Contract
@@ -19,7 +17,7 @@ class CreateContractView(generics.GenericAPIView):
 
     def post(self, request: Request, employee_id=""):
         try:
-            serialized: ModelSerializer = self.get_serializer(data=request.data)
+            serialized: ContractSerializer = self.get_serializer(data=request.data)
             serialized.is_valid(True)
 
             employee = Employee.objects.filter(pk=employee_id)
@@ -30,7 +28,7 @@ class CreateContractView(generics.GenericAPIView):
             if employee.first().contract:
                 return Response(
                     {"detail": "Employee already has a contract"},
-                    status.HTTP_422_UNPROCESSABLE_ENTITY,
+                    status.HTTP_409_CONFLICT,
                 )
 
             new_contract = serialized.save()
