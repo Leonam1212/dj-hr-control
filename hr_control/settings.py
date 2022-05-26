@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, path
 from pathlib import Path
 
 # Getting .env info
@@ -154,3 +154,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.Account"
+MEDIA_ROOT = path.join(BASE_DIR, 'candidates_files')
