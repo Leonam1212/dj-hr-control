@@ -1,5 +1,4 @@
 from uuid import uuid4
-
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -19,10 +18,19 @@ class Employee(models.Model):
         ],
     )
 
-    # contract = models.OneToOneField("contracts.Contract", on_delete=models.CASCADE)
+    contract = models.OneToOneField(
+        "contracts.Contract",
+        on_delete=models.CASCADE,
+        null=True,
+    )
 
     personal_documents = models.OneToOneField(
         "personal_documents.Personal_document", on_delete=models.CASCADE, null=True
     )
 
-    # address = models.ForeignKey("addresses.Address", on_delete=models.DO_NOTHING)
+    address = models.ForeignKey(
+        "addresses.Address",
+        related_name="employees",
+        on_delete=models.DO_NOTHING,
+        null=True,
+    )

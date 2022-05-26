@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, path
 from pathlib import Path
 
 # Getting .env info
@@ -45,8 +45,15 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = ["rest_framework", "rest_framework.authtoken"]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    )
+}
+
 # Apps instalados
-MY_APPS = ["accounts", "employees", "personal_documents"]
+
+MY_APPS = ["accounts", "employees", "contracts", "personal_documents", "candidates", "addresses"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -147,3 +154,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.Account"
+MEDIA_ROOT = path.join(BASE_DIR, 'candidates_files')
