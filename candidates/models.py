@@ -6,4 +6,4 @@ class Candidate(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=150)
-    pdf_file = models.FileField(upload_to='', null=True)
+    pdf_file = models.FileField(upload_to='')
