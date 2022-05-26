@@ -1,5 +1,4 @@
 from uuid import uuid4
-from django.core.validators import RegexValidator
 from django.db import models
 
 class Contract(models.Model):
@@ -8,6 +7,6 @@ class Contract(models.Model):
     contract_duration = models.DateField()
     salary = models.DecimalField(max_digits=6, decimal_places=3)
     position = models.CharField(max_length=150)
-    work_shift = models.CharField(max_length=20)
+    work_shift = models.ForeignKey("shifts.Shift", related_name="shifts", on_delete=models.CASCADE, null=True)
 
     
