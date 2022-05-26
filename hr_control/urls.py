@@ -24,5 +24,10 @@ urlpatterns = [
     path('api/', include("personal_documents.urls")),
     path('api/', include("candidates.urls")),
     path('api/', include("addresses.urls")),
+<<<<<<< HEAD
     path('api/', include("work_days.urls")),
+=======
+    path('api/', include("shifts.urls")),
+
+>>>>>>> develop
 ]

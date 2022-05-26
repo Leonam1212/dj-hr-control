@@ -53,7 +53,7 @@ REST_FRAMEWORK = {
 
 # Apps instalados
 
-MY_APPS = ["accounts", "employees", "contracts", "personal_documents", "candidates", "addresses", "work_days"]
+MY_APPS = ["accounts", "employees", "contracts","shifts", "personal_documents", "candidates", "addresses", "work_days"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -92,24 +92,24 @@ WSGI_APPLICATION = "hr_control.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # SQLITE DB
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-# POSTGRESQL DB
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": getenv("DB_NAME"),
-        "USER": getenv("DB_USER"),
-        "PASSWORD": getenv("DB_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# POSTGRESQL DB
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": getenv("DB_NAME"),
+#         "USER": getenv("DB_USER"),
+#         "PASSWORD": getenv("DB_PASSWORD"),
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
 
 
 # Password validation
