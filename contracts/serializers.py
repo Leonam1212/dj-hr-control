@@ -10,3 +10,7 @@ class ContractSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "id": {"read_only": True}
         }
+
+    def create(self, validated_data):
+        return super().create(validated_data)
+        
