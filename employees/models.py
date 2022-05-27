@@ -17,7 +17,7 @@ class Employee(models.Model):
             )
         ],
     )
-    personal_code = models.IntegerField(unique=True)
+    personal_code = models.IntegerField(unique=True, default=000000)
 
     contract = models.OneToOneField(
         "contracts.Contract",

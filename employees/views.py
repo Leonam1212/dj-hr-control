@@ -3,6 +3,7 @@ from rest_framework.authentication import TokenAuthentication
 from accounts.permissions import IsRH
 from .models import Employee
 from .serializers import EmployeeSerializer
+from accounts.permissions import IsRH
 
 
 class EmployeeView(generics.ListCreateAPIView):
