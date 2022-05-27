@@ -17,6 +17,7 @@ class Employee(models.Model):
             )
         ],
     )
+    personal_code = models.IntegerField(unique=True)
 
     contract = models.OneToOneField(
         "contracts.Contract",
