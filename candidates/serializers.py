@@ -10,6 +10,7 @@ class CandidateSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             "id": {"read_only": True},
+            "pdf_file": {"write_only": True}
         }
 
     def create(self, validated_data):
