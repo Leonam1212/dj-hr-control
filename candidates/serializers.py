@@ -6,7 +6,7 @@ from .models import Candidate
 class CandidateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidate
-        fields = "__all__"
+        fields = ['id', 'email', 'name']
 
         extra_kwargs = {
             "id": {"read_only": True},
