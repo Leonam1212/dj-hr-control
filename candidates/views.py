@@ -1,4 +1,3 @@
-from django.http import HttpRequest
 from rest_framework import generics
 from accounts.permissions import IsRH
 from .tools import getPdf, getAllPdfs
@@ -7,7 +6,7 @@ from .serializers import CandidateSerializer
 
 
 class CandidateView(generics.ListCreateAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
     
@@ -18,6 +17,7 @@ class CandidateView(generics.ListCreateAPIView):
             return self.list(request, *args, **kwargs)
 
 class UpdateDestroyCandidateView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsRH]
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
     lookup_field = "id"
