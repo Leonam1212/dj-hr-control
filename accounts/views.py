@@ -10,8 +10,8 @@ from .serializers import LoginSerializer,AccountSerializer
 
     
 class AccountView(generics.ListCreateAPIView):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsRH]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsRH]
 
     queryset = Account.objects
     serializer_class = AccountSerializer
