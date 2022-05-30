@@ -53,7 +53,7 @@ REST_FRAMEWORK = {
 
 # Apps instalados
 
-MY_APPS = ["accounts", "employees", "contracts","shifts", "personal_documents", "candidates", "addresses"]
+MY_APPS = ["accounts", "employees", "contracts","shifts", "personal_documents", "candidates", "addresses", "work_days"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
