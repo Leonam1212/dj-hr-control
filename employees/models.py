@@ -17,7 +17,15 @@ class Employee(models.Model):
             )
         ],
     )
-    personal_code = models.IntegerField(unique=True, default=000000)
+    personal_code = models.CharField(unique=True,
+        max_length=6,
+        validators=[
+            RegexValidator(
+                regex=r"^[0-9]{6}",
+                message="the personal code is a string with six numbers, format: xxxxxx",
+                code=400,
+            )
+        ],)
 
     contract = models.OneToOneField(
         "contracts.Contract",

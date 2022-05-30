@@ -11,7 +11,7 @@ from .serializers import LoginSerializer,AccountSerializer
     
 class AccountView(generics.ListCreateAPIView):
     # authentication_classes = [TokenAuthentication]
-    permission_classes = [IsRH]
+    # permission_classes = [IsRH]
 
     queryset = Account.objects
     serializer_class = AccountSerializer
