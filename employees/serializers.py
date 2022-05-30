@@ -25,7 +25,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class EmployeeDetailedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = "__all__"
+        fields = ['id', 'name', 'email', 'phone_number', 'contract', 'personal_documents', 'address']
     
     contract = ContractSerializer()
     personal_documents = PersonalDocumentSerializer()
