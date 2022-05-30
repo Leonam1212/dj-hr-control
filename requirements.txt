@@ -15,4 +15,4 @@ python-dotenv==0.20.0
 pytz==2022.1
 sqlparse==0.4.2
 tomli==2.0.1
-typing-extensions==4.2.0
+typing_extensions==4.2.0
