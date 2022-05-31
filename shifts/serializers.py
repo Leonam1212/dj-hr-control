@@ -13,7 +13,7 @@ class ShiftSerializer(serializers.ModelSerializer):
         }
 
     def validate(self, attrs):
-        attrs["name"] = attrs["name"].lower()
+        attrs["name"] = attrs["name"].lower().strip()
 
         return super().validate(attrs)
 

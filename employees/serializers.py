@@ -19,6 +19,10 @@ class EmployeeSerializer(serializers.ModelSerializer):
             "address": {"required": False},
         }
 
+    def validate(self, attrs):
+        attrs["name"] = attrs["name"].title().strip()
+        return super().validate(attrs)
+
     def create(self, validated_data):
         return Employee.objects.create(**validated_data)
 
