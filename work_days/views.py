@@ -13,7 +13,7 @@ class MakeCheckInView(generics.GenericAPIView):
   qyeryset = WorkDay.objects.all()
   serializer_class = WorkDaySerializer
 
-  def post(self, response: Response, personal_code=""):
+  def post(self, personal_code=""):
     try:
       today = datetime.now()
       employee = Employee.objects.all().filter(personal_code=personal_code).first()
@@ -39,6 +39,25 @@ class MakeCheckInView(generics.GenericAPIView):
 
     except(ObjectDoesNotExist):
       return Response({"detail": "Employee not found"}, status.HTTP_404_NOT_FOUND)
+
+class GetWorkDaysByPersonalCode(generics.GenericAPIView):
+  permission_classes = [IsRH]
+  qyeryset = WorkDay.objects.all()
+  serializer_class = WorkDaySerializer
+
+  def get(self, personal_code=""):
+    try:
+      dayFilter = WorkDay.objects.all().filter(employee_code=personal_code)
+
+      if not dayFilter:
+        raise ObjectDoesNotExist
+      
+      serialized = WorkDaySerializer(dayFilter)
+      
+      return Response(serialized.data, status.HTTP_200_OK)
+
+    except(ObjectDoesNotExist):
+      return Response({"detail": "Personal code not found"}, status.HTTP_404_NOT_FOUND)
 
 class WorkDayView(generics.ListCreateAPIView):
   permission_classes = [IsRH]
