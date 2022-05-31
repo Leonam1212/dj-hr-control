@@ -12,6 +12,11 @@ class ShiftSerializer(serializers.ModelSerializer):
             "id": {"read_only": True}
         }
 
+    def validate(self, attrs):
+        attrs["name"] = attrs["name"].lower()
+
+        return super().validate(attrs)
+
     def create(self, validated_data):
         return super().create(validated_data)
         
