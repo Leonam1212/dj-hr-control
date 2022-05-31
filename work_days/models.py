@@ -4,7 +4,9 @@ from datetime import datetime
 from django.db import models
 
 def isweekend():
-    if(datetime.now().weekday() > 5):
+    if(datetime.now().weekday() == 0):
+        return True
+    if(datetime.now().weekday() == 6):
         return True
     return False
 
