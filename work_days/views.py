@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.request import Request
 from employees.models import Employee
 from work_days.models import WorkDay
 from datetime import date, datetime
@@ -13,7 +14,7 @@ class MakeCheckInView(generics.GenericAPIView):
   qyeryset = WorkDay.objects.all()
   serializer_class = WorkDaySerializer
 
-  def post(self, response: Response, personal_code=""):
+  def post(self, request: Request, personal_code=""):
     try:
       today = datetime.now()
       employee = Employee.objects.all().filter(personal_code=personal_code).first()
@@ -26,6 +27,7 @@ class MakeCheckInView(generics.GenericAPIView):
         time_checkin = dayFilter.first().checkin
         duration = datetime.combine(date.min, today.time()) - datetime.combine(date.min, time_checkin)
         dayFilter.update(checkout=today, time_worked=str(duration))
+        dayFilter.first().save()
 
         serialized = WorkDaySerializer(dayFilter.first())
 
@@ -39,6 +41,25 @@ class MakeCheckInView(generics.GenericAPIView):
 
     except(ObjectDoesNotExist):
       return Response({"detail": "Employee not found"}, status.HTTP_404_NOT_FOUND)
+
+class GetWorkDaysByPersonalCode(generics.GenericAPIView):
+  permission_classes = [IsRH]
+  qyeryset = WorkDay.objects.all()
+  serializer_class = WorkDaySerializer
+
+  def get(self, request: Request, personal_code=""):
+    try:
+      dayFilter = WorkDay.objects.all().filter(employee_code=personal_code)
+
+      if not dayFilter:
+        raise ObjectDoesNotExist
+      
+      serialized = WorkDaySerializer(dayFilter, many=True)
+      
+      return Response(serialized.data, status.HTTP_200_OK)
+
+    except(ObjectDoesNotExist):
+      return Response({"detail": "Personal code not found, or nothing registered"}, status.HTTP_404_NOT_FOUND)
 
 class WorkDayView(generics.ListCreateAPIView):
   permission_classes = [IsRH]
