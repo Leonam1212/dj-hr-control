@@ -5,7 +5,6 @@ from django.db import migrations
 from dotenv import load_dotenv
 from os import getenv
 
-from accounts.serializers import AccountSerializer
 
 load_dotenv()
 
@@ -21,7 +20,7 @@ def default_account(apps, schema_editor):
     }
 
     Account.objects.create(**default_data)
-    
+
 
 class Migration(migrations.Migration):
 
