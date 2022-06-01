@@ -30,7 +30,7 @@ SECRET_KEY = getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['app-hr-control.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ["app-hr-control.herokuapp.com", "localhost"]
 
 
 # Application definition
@@ -54,7 +54,16 @@ REST_FRAMEWORK = {
 
 # Apps instalados
 
-MY_APPS = ["accounts", "employees", "contracts","shifts", "personal_documents", "candidates", "addresses", "work_days"]
+MY_APPS = [
+    "shifts",
+    "accounts",
+    "candidates",
+    "employees",
+    "contracts",
+    "personal_documents",
+    "addresses",
+    "work_days",
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
@@ -103,14 +112,24 @@ DATABASES = {
         "PORT": "5432",
     }
 }
-DATABASE_URL = getenv('DATABASE_URL')
+
+# SQLITE DB
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+DATABASE_URL = getenv("DATABASE_URL")
 
 DATABASE_URL = getenv("DATABASE_URL")
 
 if DATABASE_URL:
     db_from_env = dj_database_url.config(
-        default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-    DATABASES['default'].update(db_from_env)
+        default=DATABASE_URL, conn_max_age=500, ssl_require=True
+    )
+    DATABASES["default"].update(db_from_env)
     DEBUG = False
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -154,4 +173,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "accounts.Account"
-MEDIA_ROOT = path.join(BASE_DIR, 'candidates_files')
+MEDIA_ROOT = path.join(BASE_DIR, "candidates_files")

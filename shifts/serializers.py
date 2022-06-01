@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from shifts.models import Shift
+from .models import Shift
 
 class ShiftSerializer(serializers.ModelSerializer):
 
@@ -20,9 +20,9 @@ class ShiftSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return super().create(validated_data)
         
-class ShiftScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Shift
-        fields = ["name", "base_checkin", "base_checkout"]
+# class ShiftScheduleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Shift
+#         fields = ["name", "base_checkin", "base_checkout"]
 
 
