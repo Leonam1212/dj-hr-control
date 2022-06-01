@@ -29,17 +29,17 @@ class Employee(models.Model):
 
     contract = models.OneToOneField(
         "contracts.Contract",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True,
     )
 
     personal_documents = models.OneToOneField(
-        "personal_documents.Personal_document", on_delete=models.CASCADE, null=True
+        "personal_documents.Personal_document", on_delete=models.SET_NULL, null=True
     )
 
     address = models.ForeignKey(
         "addresses.Address",
         related_name="employees",
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
         null=True,
     )

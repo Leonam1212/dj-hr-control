@@ -56,3 +56,4 @@ class UpdateAndDeleteContractView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     lookup_field = "id"
+
