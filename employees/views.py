@@ -1,13 +1,16 @@
-from rest_framework import generics
-from accounts.permissions import IsRH
-from shifts.models import Shift
-from shifts.serializers import ShiftSerializer
-from .models import Employee
-from .serializers import EmployeeSerializer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from datetime import datetime
+from createPdf.jinja import createPDF
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import FileResponse
+from rest_framework import generics
 import calendar
+
+from accounts.permissions import IsRH
+from shifts.models import Shift
+from .models import Employee
+from .serializers import EmployeeSerializer
 
 
 class EmployeeView(generics.ListCreateAPIView):
@@ -27,62 +30,72 @@ class UpdateDestroyEmployeeView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "id"
 
 class CreateWorkScheduleView(generics.GenericAPIView):
-    def post(self, request: Request, type=""):
-       
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
 
-            employee_list = Employee.objects.all()
-            employees = EmployeeSerializer(employee_list, many=True)
-            shift_list = Shift.objects.all()
-            shifts = ShiftSerializer(shift_list, many=True)
-            newSchedule = createSchedule(employees.data, shifts.data)
+    def get(self, request: Request, type=""):
+        try:
+            newSchedule = createSchedule()
+            if type == "json":
+                return Response(newSchedule)
+            if type == "pdf":
+                createPDF(newSchedule)
+                return FileResponse(open('createPdf/output/file.pdf', 'rb'))
+            return Response({"error": "type not found."})
+        except(ObjectDoesNotExist):
+            return Response({"detail": "Employee not found"}, status.HTTP_404_NOT_FOUND)
 
-            return Response(newSchedule)
+            
         
-def createSchedule(employees ,shifts):
+def createSchedule():
     date = datetime.now()
     month = date.month
     month_range = calendar.monthrange(date.year, date.month)
     month_name = {
-        1: "January",
-        2: "February",
-        3: "March",
-        4: "April",
-        5: "May",
-        6: "June",
-        7: "July",
-        8: "August",
-        9: "September",
-        10: "October",
-        11: "November",
-        12: "December"
+        1: "Janeiro",
+        2: "Fevereiro",
+        3: "Março",
+        4: "Abril",
+        5: "Maio",
+        6: "Junho",
+        7: "Julho",
+        8: "Agosto",
+        9: "Setembro",
+        10: "Outubro",
+        11: "Novembro",
+        12: "Dezembro"
     }
     week_name = {
-        6: "Sunday",
-        0: "Monday",
-        1: "Tuesday",
-        2: "Wednesday",
-        3: "Thursday",
-        4: "Friday",
-        5: "Saturday"
+        0: "Segunda-feira",
+        1: "Terça-feira",
+        2: "Quarta-feira",
+        3: "Quinta-feira",
+        4: "Sexta-feira",
+        5: "Sabado",
+        6: "Domingo"
     }
 
 
     def schedule():
         table = {}
+
+        avaliable_shifts = Shift.objects.all()
+        # shifts_name = [shift.name for shift in avaliable_shifts]
+
+        avaliable_employees = Employee.objects.all()
+        employee_shift = [(employee.name, employee.contract.work_shift.name) for employee in avaliable_employees]
         
-
-
         for day in range(month_range[1]):
             days = {}
-            days["week_day"] = week_name[calendar.weekday(date.year, date.month, day+1)]
+            days["dia da semana"] = [week_name[calendar.weekday(date.year, date.month, day+1)]]
             
-            for shift in shifts:
-                days[shift["name"]] = []
+            for shift in avaliable_shifts:
+                days[shift.name]= []
 
-                for employee in employees:
-                    shift_name = employee['contract']['work_shift']['name']
-                    if(shift_name == shift["name"]):
-                        days[shift["name"]].append(employee['name'])
+                for person in employee_shift:
+        
+                    if(person[1] == shift.name):
+                        days[shift.name].append(person[0])
                 
             table[day+1] = days
             
