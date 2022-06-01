@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from addresses.serializers import AddressSerializer
-from contracts.serializers import ContractSerializer, ContractScheduleSerializer
+from contracts.serializers import ContractSerializer
 from personal_documents.serializers import PersonalDocumentSerializer
 
 from .models import Employee
@@ -36,9 +36,9 @@ class EmployeeDetailedSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
 
 
-class EmployeeScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = ["name", "contract"]
+# class EmployeeScheduleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Employee
+#         fields = ["name", "contract"]
     
-    contract = ContractScheduleSerializer()
+#     contract = ContractScheduleSerializer()
