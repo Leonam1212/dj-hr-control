@@ -9,7 +9,6 @@ import calendar
 
 from accounts.permissions import IsRH
 from shifts.models import Shift
-from shifts.serializers import ShiftSerializer
 from .models import Employee
 from .serializers import EmployeeSerializer
 
@@ -36,14 +35,7 @@ class CreateWorkScheduleView(generics.GenericAPIView):
 
     def get(self, request: Request, type=""):
         try:
-            employee_list = self.get_queryset()
-            employees = EmployeeSerializer(employee_list, many=True)
-            shift_list = Shift.objects.all()
-            shifts = ShiftSerializer(shift_list, many=True)
-            newSchedule = createSchedule(employees.data, shifts.data)
-            if not employee_list:
-                raise ObjectDoesNotExist
-
+            newSchedule = createSchedule()
             if type == "json":
                 return Response(newSchedule)
             if type == "pdf":
@@ -55,7 +47,7 @@ class CreateWorkScheduleView(generics.GenericAPIView):
 
             
         
-def createSchedule(employees ,shifts):
+def createSchedule():
     date = datetime.now()
     month = date.month
     month_range = calendar.monthrange(date.year, date.month)
@@ -74,13 +66,13 @@ def createSchedule(employees ,shifts):
         12: "Dezembro"
     }
     week_name = {
-        6: "Segunda-feira",
-        0: "Terça-feira",
-        1: "Quarta-feira",
-        2: "Quinta-feira",
-        3: "Sexta-feira",
-        4: "Sabado",
-        5: "Domingo"
+        0: "Segunda-feira",
+        1: "Terça-feira",
+        2: "Quarta-feira",
+        3: "Quinta-feira",
+        4: "Sexta-feira",
+        5: "Sabado",
+        6: "Domingo"
     }
 
 
@@ -88,13 +80,10 @@ def createSchedule(employees ,shifts):
         table = {}
 
         avaliable_shifts = Shift.objects.all()
-        shifts_name = [shift.name for shift in avaliable_shifts]
+        # shifts_name = [shift.name for shift in avaliable_shifts]
 
         avaliable_employees = Employee.objects.all()
         employee_shift = [(employee.name, employee.contract.work_shift.name) for employee in avaliable_employees]
-
-        print(shifts_name)
-        print(employee_shift)
         
         for day in range(month_range[1]):
             days = {}
