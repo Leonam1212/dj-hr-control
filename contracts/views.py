@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from employees.models import Employee
 from shifts.models import Shift
 from .models import Contract
-from shifts.execptions import ShiftNotFoundError
+from shifts.execeptions import ShiftNotFoundError
 from .serializers import ContractSerializer
 from accounts.permissions import IsRH
 
