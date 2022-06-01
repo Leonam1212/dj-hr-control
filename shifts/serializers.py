@@ -20,3 +20,9 @@ class ShiftSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return super().create(validated_data)
         
+class ShiftScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shift
+        fields = ["name", "base_checkin", "base_checkout"]
+
+
