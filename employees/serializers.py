@@ -3,7 +3,6 @@ from rest_framework import serializers
 from addresses.serializers import AddressSerializer
 from contracts.serializers import ContractSerializer, ContractScheduleSerializer
 from personal_documents.serializers import PersonalDocumentSerializer
-from shifts.serializers import ShiftSerializer
 
 from .models import Employee
 
