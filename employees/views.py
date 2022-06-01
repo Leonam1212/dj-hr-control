@@ -1,4 +1,3 @@
-from tkinter import E
 from rest_framework import generics
 from accounts.permissions import IsRH
 from shifts.models import Shift
