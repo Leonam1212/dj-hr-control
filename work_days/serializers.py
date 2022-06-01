@@ -13,6 +13,4 @@ class WorkDaySerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return WorkDay.objects.create(**validated_data)
-    
-    def get_checkin(self, obj):
-        return obj.checkin
+
