@@ -1,4 +1,4 @@
-from contracts.execptions import ShiftNotFoundError
+from shifts.execeptions import ShiftNotFoundError
 from contracts.models import Contract
 # from shifts.serializers import ShiftSerializer
 from rest_framework import serializers
