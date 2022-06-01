@@ -11,7 +11,7 @@ from accounts.permissions import IsRH
 from shifts.models import Shift
 from shifts.serializers import ShiftSerializer
 from .models import Employee
-from .serializers import EmployeeSerializer, EmployeeScheduleSerializer
+from .serializers import EmployeeSerializer
 
 
 class EmployeeView(generics.ListCreateAPIView):
@@ -32,11 +32,11 @@ class UpdateDestroyEmployeeView(generics.RetrieveUpdateDestroyAPIView):
 
 class CreateWorkScheduleView(generics.GenericAPIView):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeScheduleSerializer
+    serializer_class = EmployeeSerializer
 
     def get(self, request: Request, type=""):
         try:
-            employee_list = Employee.objects.all()
+            employee_list = self.get_queryset()
             employees = EmployeeSerializer(employee_list, many=True)
             shift_list = Shift.objects.all()
             shifts = ShiftSerializer(shift_list, many=True)
@@ -86,6 +86,9 @@ def createSchedule(employees ,shifts):
 
     def schedule():
         table = {}
+
+        avaliable_shifts = Shift.objects.all()
+        shifts_name = [shift.name for shift in avaliable_shifts]
         
         for day in range(month_range[1]):
             days = {}
@@ -96,7 +99,8 @@ def createSchedule(employees ,shifts):
 
                 for employee in employees:
                     shift_name = employee['contract']['work_shift']['name']
-                    if(shift_name == shift["name"]):
+                    print(shift_name)
+                    if(shift_name == shifts_name["name"]):
                         days[shift["name"]].append(employee['name'])
                 
             table[day+1] = days
