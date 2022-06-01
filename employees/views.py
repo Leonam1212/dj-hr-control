@@ -3,7 +3,7 @@ from accounts.permissions import IsRH
 from shifts.models import Shift
 from shifts.serializers import ShiftSerializer
 from .models import Employee
-from .serializers import EmployeeDetailedSerializer, EmployeeSerializer, EmployeeScheduleSerializer
+from .serializers import EmployeeSerializer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from datetime import datetime
@@ -17,7 +17,7 @@ class EmployeeView(generics.ListCreateAPIView):
     
     def get_serializer_class(self):
         if self.request.method == "GET":
-            return EmployeeDetailedSerializer
+            return EmployeeSerializer
         return super().get_serializer_class()
 
 class UpdateDestroyEmployeeView(generics.RetrieveUpdateDestroyAPIView):
@@ -31,7 +31,7 @@ class CreateWorkScheduleView(generics.GenericAPIView):
        
 
             employee_list = Employee.objects.all()
-            employees = EmployeeScheduleSerializer(employee_list, many=True)
+            employees = EmployeeSerializer(employee_list, many=True)
             shift_list = Shift.objects.all()
             shifts = ShiftSerializer(shift_list, many=True)
             newSchedule = createSchedule(employees.data, shifts.data)

@@ -55,8 +55,8 @@ REST_FRAMEWORK = {
 # Apps instalados
 
 MY_APPS = [
-    "accounts",
     "shifts",
+    "accounts",
     "candidates",
     "employees",
     "contracts",
@@ -102,24 +102,24 @@ WSGI_APPLICATION = "hr_control.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # POSTGRESQL DB
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": getenv("DB_NAME"),
-#         "USER": getenv("DB_USER"),
-#         "PASSWORD": getenv("DB_PASSWORD"),
-#         "HOST": "localhost",
-#         "PORT": "5432",
-#     }
-# }
-
-# SQLITE DB
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": getenv("DB_NAME"),
+        "USER": getenv("DB_USER"),
+        "PASSWORD": getenv("DB_PASSWORD"),
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
+
+# SQLITE DB
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 DATABASE_URL = getenv("DATABASE_URL")
 
