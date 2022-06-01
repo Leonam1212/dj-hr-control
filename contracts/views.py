@@ -4,7 +4,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from employees.models import Employee
+from shifts.models import Shift
 from .models import Contract
+from .execptions import ShiftNotFoundError
 from .serializers import ContractSerializer
 from accounts.permissions import IsRH
 
@@ -19,6 +21,14 @@ class CreateContractView(generics.GenericAPIView):
         try:
             serialized: ContractSerializer = self.get_serializer(data=request.data)
             serialized.is_valid(True)
+            shift_name: str = request.data.pop("shift").lower().strip()
+
+            work_shift = Shift.objects.filter(name=shift_name)
+
+            if not work_shift:
+                raise ShiftNotFoundError
+
+            serialized.validated_data["work_shift"] = work_shift.first()
 
             employee = Employee.objects.filter(pk=employee_id)
 
@@ -56,3 +66,4 @@ class UpdateAndDeleteContractView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     lookup_field = "id"
+
