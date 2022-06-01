@@ -1,6 +1,6 @@
-from contracts.execptions import ShiftNotFoundError
+from shifts.execeptions import ShiftNotFoundError
 from contracts.models import Contract
-from shifts.serializers import ShiftScheduleSerializer, ShiftSerializer
+# from shifts.serializers import ShiftSerializer
 from rest_framework import serializers
 from shifts.models import Shift
 
@@ -17,7 +17,7 @@ class ContractSerializer(serializers.ModelSerializer):
             "work_shift": {"required": False},
         }
     
-    work_shift = ShiftSerializer()
+    # work_shift = ShiftSerializer()
 
     def create(self, validated_data):
         return super().create(validated_data)
@@ -45,11 +45,11 @@ class ContractSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
         
-class ContractScheduleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contract
-        fields = ["work_shift"]
+# class ContractScheduleSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Contract
+#         fields = ["work_shift"]
         
-    work_shift = ShiftScheduleSerializer()
+#     work_shift = ShiftScheduleSerializer()
 
     
