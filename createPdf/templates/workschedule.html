@@ -11,7 +11,6 @@
         font-size: 20px;
       }
       .box {
-        display: block;
         border: 1px solid rgb(11, 5, 87);
         margin-bottom: 5px;
         background-color: rgb(203, 231, 255);
@@ -23,10 +22,18 @@
         color: aliceblue;
         margin: 0;
       }
-      .title {
+      h3 {
         font-size: 12px;
-        display: inline-block;
         font-weight: bolder;
+        display: inline-block;
+      }
+      span {
+        display: block;
+        display: inline-block;
+      }
+      p {
+        width: 50px;
+        display: inline-block;
       }
     </style>
   </head>
@@ -37,10 +44,13 @@
       <div class="box">
         <h2>Dia {{item}}</h2>
         <br />
-        {% for day in data.schedule[item]%}
-        <span class="title">{{day}}:</span>
-        {%for employee in data.schedule[item][day]%}
-        <span>{{employee}}</span>
+        {% for shift in data.schedule[item]%} {%for employee in
+        data.schedule[item][shift]%}
+        <span>
+          <h3>{{shift}}:</h3>
+          <p>{{employee}}</p>
+        </span>
+        <br />
         {% endfor %} {% endfor %}
       </div>
       {% endfor %}

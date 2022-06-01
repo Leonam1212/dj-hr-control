@@ -65,7 +65,7 @@ def createSchedule(employees ,shifts):
         3: "Março",
         4: "Abril",
         5: "Maio",
-        6: "Juinho",
+        6: "Junho",
         7: "Julho",
         8: "Agosto",
         9: "Setembro",
@@ -80,7 +80,7 @@ def createSchedule(employees ,shifts):
         2: "Quinta-feira",
         3: "Sexta-feira",
         4: "Sabado",
-        5: "Saturday"
+        5: "Domingo"
     }
 
 
@@ -89,19 +89,24 @@ def createSchedule(employees ,shifts):
 
         avaliable_shifts = Shift.objects.all()
         shifts_name = [shift.name for shift in avaliable_shifts]
+
+        avaliable_employees = Employee.objects.all()
+        employee_shift = [(employee.name, employee.contract.work_shift.name) for employee in avaliable_employees]
+
+        print(shifts_name)
+        print(employee_shift)
         
         for day in range(month_range[1]):
             days = {}
-            days["week_day"] = [week_name[calendar.weekday(date.year, date.month, day+1)]]
+            days["dia da semana"] = [week_name[calendar.weekday(date.year, date.month, day+1)]]
             
-            for shift in shifts:
-                days[shift["name"]] = []
+            for shift in avaliable_shifts:
+                days[shift.name]= []
 
-                for employee in employees:
-                    shift_name = employee['contract']['work_shift']['name']
-                    print(shift_name)
-                    if(shift_name == shifts_name["name"]):
-                        days[shift["name"]].append(employee['name'])
+                for person in employee_shift:
+        
+                    if(person[1] == shift.name):
+                        days[shift.name].append(person[0])
                 
             table[day+1] = days
             
