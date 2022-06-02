@@ -5,6 +5,10 @@ from rest_framework.response import Response
 from employees.exceptions import EmployeeNotFoundError, ExistingPersonalDocumentsError
 
 from employees.models import Employee
+
+from contracts.models import Contract
+from contracts.serializers import ContractSerializer
+
 from .models import Personal_document
 from .serializers import PersonalDocumentSerializer
 from accounts.permissions import IsRH
@@ -23,21 +27,31 @@ class CreatePersonalDocumentsView(generics.GenericAPIView):
             )
             serialized.is_valid(True)
 
-            employee = Employee.objects.filter(id=employee_id)
+            employee = Employee.objects.filter(id=employee_id).first()
 
             if not employee:
                 raise EmployeeNotFoundError
-            elif employee.first().personal_documents:
+            elif employee.personal_documents:
                 raise ExistingPersonalDocumentsError
 
-            new_personal_documents = serialized.save()
-            employee.update(personal_documents=new_personal_documents)
-            employee.first().save()
+            if (employee.contract and not serialized.data["cnpj"]):
+                contract: Contract = ContractSerializer(employee.contract).data
+                contract_type: str = contract["contract_type"]
+
+                if (contract_type.upper() == "PJ"):
+                    return Response({
+                            "detail": "cnpj is required because this employee contract is PJ"
+                        }, status.HTTP_400_BAD_REQUEST )
+
+            new_personal_documents = Personal_document.objects.create(**serialized.validated_data)
+            employee.personal_documents = new_personal_documents
+            employee.save()
+
+            return Response(serialized.validated_data, status.HTTP_201_CREATED)
 
         except ValidationError:
             return Response({"detail": "Not found"}, status.HTTP_404_NOT_FOUND)
 
-        return Response(serialized.data, status.HTTP_201_CREATED)
 
 
 class ListPersonalDocumentsView(generics.ListAPIView):
