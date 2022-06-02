@@ -13,11 +13,10 @@ class ContractSerializer(serializers.ModelSerializer):
         fields = "__all__"
         work_shift = ShiftSerializer()
 
-        shift = serializers.CharField(max_length=20, write_only=True)
-
         extra_kwargs = {"id": {"read_only": True}, "work_shift": {"required": False}}
 
-    def validate(self, attrs):
+
+    def create(self, validated_data):
         request_data = self.context["request"].data
 
         if "shift" in request_data:
@@ -30,12 +29,7 @@ class ContractSerializer(serializers.ModelSerializer):
         if not work_shift:
             raise ShiftNotFoundError
 
-        attrs["work_shift"] = work_shift
-        return attrs
-
-
-    def create(self, validated_data):
-        return Contract.objects.create(**validated_data)
+        return Contract.objects.create(**validated_data, work_shift=work_shift)
 
 
     def update(self, instance: Contract, validated_data):
