@@ -62,7 +62,7 @@ class ListPersonalDocumentsView(generics.ListAPIView):
     lookup_field = "id"
 
 
-class PersonalDocumentByIdView(generics.UpdateAPIView):
+class PersonalDocumentByIdView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsRH]
 
     queryset = Personal_document.objects.all()
