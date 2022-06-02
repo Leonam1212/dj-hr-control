@@ -1,10 +1,6 @@
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status
 from datetime import datetime
-from createPdf.jinja import createPDF
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import FileResponse
 from rest_framework import generics
 import calendar
 
@@ -34,20 +30,12 @@ class CreateWorkScheduleView(generics.GenericAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-    def get(self, request: Request, type=""):
-        try:
-            newSchedule = createSchedule()
-            if type == "json":
-                return Response(newSchedule)
-            if type == "pdf":
-                createPDF(newSchedule)
-                return FileResponse(open('createPdf/output/file.pdf', 'rb'))
-            return Response({"error": "type not found."})
-        except(ObjectDoesNotExist):
-            return Response({"detail": "Employee not found"}, status.HTTP_404_NOT_FOUND)
+    def get(self, request: Request):
 
+        newSchedule = createSchedule()
+        return Response(newSchedule)
             
-        
+            
 def createSchedule():
     date = datetime.now()
     month = date.month
