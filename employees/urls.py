@@ -4,5 +4,5 @@ from .views import EmployeeView, UpdateDestroyEmployeeView, CreateWorkScheduleVi
 urlpatterns = [
     path('employees/', EmployeeView.as_view()),
     path('employees/<str:id>/', UpdateDestroyEmployeeView.as_view()),
-    path("work_schedule/<str:type>", CreateWorkScheduleView.as_view())
+    path("work_schedule/", CreateWorkScheduleView.as_view())
 ]

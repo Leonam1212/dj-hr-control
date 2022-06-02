@@ -13,4 +13,4 @@ class PersonalDocumentSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        return super().create(validated_data)
+        return Personal_document.objects.create(**validated_data)
