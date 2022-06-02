@@ -30,7 +30,11 @@ SECRET_KEY = getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["app-hr-control.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = [
+    "app-hr-control.herokuapp.com",
+    "localhost",
+    "hr-control-website.vercel.app",
+]
 
 
 # Application definition
