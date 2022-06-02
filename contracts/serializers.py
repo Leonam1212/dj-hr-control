@@ -1,26 +1,42 @@
-from shifts.execeptions import ShiftNotFoundError
+from shifts.exceptions import ShiftNotFoundError
 from contracts.models import Contract
-# from shifts.serializers import ShiftSerializer
+
+from shifts.serializers import ShiftSerializer
 from rest_framework import serializers
 from shifts.models import Shift
+from .exceptions import ShiftNotSentError
 
 
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contract
         fields = "__all__"
+        work_shift = ShiftSerializer()
 
         shift = serializers.CharField(max_length=20, write_only=True)
 
-        extra_kwargs = {
-            "id": {"read_only": True},
-            "work_shift": {"required": False},
-        }
-    
-    # work_shift = ShiftSerializer()
+        extra_kwargs = {"id": {"read_only": True}, "work_shift": {"required": False}}
+
+    def validate(self, attrs):
+        request_data = self.context["request"].data
+
+        if "shift" in request_data:
+            shift_name: str = request_data.pop("shift").lower().strip()
+        else:
+            raise ShiftNotSentError
+
+        work_shift = Shift.objects.filter(name=shift_name).first()
+
+        if not work_shift:
+            raise ShiftNotFoundError
+
+        attrs["work_shift"] = work_shift
+        return attrs
+
 
     def create(self, validated_data):
-        return super().create(validated_data)
+        return Contract.objects.create(**validated_data)
+
 
     def update(self, instance: Contract, validated_data):
         request_data = self.context["request"].data
@@ -44,12 +60,3 @@ class ContractSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-        
-# class ContractScheduleSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Contract
-#         fields = ["work_shift"]
-        
-#     work_shift = ShiftScheduleSerializer()
-
-    

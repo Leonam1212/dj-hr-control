@@ -1,18 +1,16 @@
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
-
+from employees.exceptions import EmployeeNotFoundError, ExistingContractError
 from employees.models import Employee
-from shifts.models import Shift
 from .models import Contract
-from shifts.execeptions import ShiftNotFoundError
 from .serializers import ContractSerializer
 from accounts.permissions import IsRH
 
 
-class CreateContractView(generics.GenericAPIView):
-    # permission_classes = [IsRH]
+class CreateContractView(generics.CreateAPIView, generics.RetrieveAPIView):
+    permission_classes = [IsRH]
 
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
@@ -21,39 +19,26 @@ class CreateContractView(generics.GenericAPIView):
         try:
             serialized: ContractSerializer = self.get_serializer(data=request.data)
             serialized.is_valid(True)
-            shift_name: str = request.data.pop("shift").lower().strip()
 
-            work_shift = Shift.objects.filter(name=shift_name)
-
-            if not work_shift:
-                raise ShiftNotFoundError
-
-            serialized.validated_data["work_shift"] = work_shift.first()
-
-            employee = Employee.objects.filter(pk=employee_id)
+            employee = Employee.objects.filter(id=employee_id)
 
             if not employee:
-                raise ObjectDoesNotExist
-
-            if employee.first().contract:
-                return Response(
-                    {"detail": "Employee already has a contract"},
-                    status.HTTP_409_CONFLICT,
-                )
+                raise EmployeeNotFoundError
+            elif employee.first().contract:
+                raise ExistingContractError
 
             new_contract = serialized.save()
-
             employee.update(contract=new_contract)
             employee.first().save()
 
-            return Response(serialized.data, status.HTTP_201_CREATED)
+        except ValidationError:
+            return Response({"detail": "Not found"}, status.HTTP_400_BAD_REQUEST)
 
-        except (ValidationError, ObjectDoesNotExist):
-            return Response({"detail": "Not found"}, status.HTTP_404_NOT_FOUND)
+        return Response(serialized.data, status.HTTP_201_CREATED)
 
 
 class ListContractView(generics.ListAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
@@ -61,9 +46,8 @@ class ListContractView(generics.ListAPIView):
 
 
 class UpdateAndDeleteContractView(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     lookup_field = "id"
-
