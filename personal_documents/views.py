@@ -1,7 +1,8 @@
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
+from employees.exceptions import EmployeeNotFoundError, ExistingPersonalDocumentsError
 
 from employees.models import Employee
 from .models import Personal_document
@@ -10,7 +11,7 @@ from accounts.permissions import IsRH
 
 
 class CreatePersonalDocumentsView(generics.GenericAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Personal_document.objects.all()
     serializer_class = PersonalDocumentSerializer
@@ -22,39 +23,33 @@ class CreatePersonalDocumentsView(generics.GenericAPIView):
             )
             serialized.is_valid(True)
 
-            employee = Employee.objects.filter(pk=employee_id)
+            employee = Employee.objects.filter(id=employee_id)
 
             if not employee:
-                raise ObjectDoesNotExist
-
-            if employee.first().personal_documents:
-                return Response(
-                    {
-                        "detail": "Employee already has his personal documents registered"
-                    },
-                    status.HTTP_409_CONFLICT,
-                )
+                raise EmployeeNotFoundError
+            elif employee.first().personal_documents:
+                raise ExistingPersonalDocumentsError
 
             new_personal_documents = serialized.save()
-
             employee.update(personal_documents=new_personal_documents)
             employee.first().save()
 
-            return Response(serialized.data, status.HTTP_201_CREATED)
-
-        except (ValidationError, ObjectDoesNotExist):
+        except ValidationError:
             return Response({"detail": "Not found"}, status.HTTP_404_NOT_FOUND)
+
+        return Response(serialized.data, status.HTTP_201_CREATED)
 
 
 class ListPersonalDocumentsView(generics.ListAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Personal_document.objects.all()
     serializer_class = PersonalDocumentSerializer
     lookup_field = "id"
 
+
 class PersonalDocumentByIdView(generics.UpdateAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Personal_document.objects.all()
     serializer_class = PersonalDocumentSerializer

@@ -9,3 +9,8 @@ class EmployeeNotFoundError(APIException):
 class ExistingContractError(APIException):
     default_detail = "Employee already has a contract"
     status_code = 409
+
+
+class ExistingPersonalDocumentsError(APIException):
+    default_detail = "Employee already has his personal documents registered"
+    status_code = 409
