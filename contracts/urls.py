@@ -6,7 +6,7 @@ from contracts.views import (
 )
 
 urlpatterns = [
-    path("contracts/create/<str:employee_id>", CreateContractView.as_view()),
+    path("contracts/create/<str:employee_id>/", CreateContractView.as_view()),
     path("contracts/", ListContractView.as_view()),
-    path("contracts/<str:id>", UpdateAndDeleteContractView.as_view()),
+    path("contracts/<str:id>/", UpdateAndDeleteContractView.as_view()),
 ]
