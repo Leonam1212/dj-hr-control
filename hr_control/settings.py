@@ -33,9 +33,11 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "app-hr-control.herokuapp.com",
     "localhost",
-    "hr-control-website.vercel.app",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://hr-control-website.vercel.app",
+]
 
 # Application definition
 
