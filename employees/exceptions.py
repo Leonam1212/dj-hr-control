@@ -14,3 +14,7 @@ class ExistingContractError(APIException):
 class ExistingPersonalDocumentsError(APIException):
     default_detail = "Employee already has his personal documents registered"
     status_code = 409
+
+class ExistingAddressError(APIException):
+    default_detail = "Employee already has an address"
+    status_code = 409
