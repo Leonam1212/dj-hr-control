@@ -10,11 +10,11 @@ class CandidateView(generics.ListCreateAPIView):
     queryset = Candidate.objects.all()
     serializer_class = CandidateSerializer
     
-    def get(self, request, *args, **kwargs):
-        try:           
-            return getAllPdfs()
-        except FileNotFoundError:
-            return self.list(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     try:           
+    #         return getAllPdfs()
+    #     except FileNotFoundError:
+    #         return self.list(request, *args, **kwargs)
 
 class UpdateDestroyCandidateView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsRH]
