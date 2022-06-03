@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, hashers
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import AuthenticationFailed
+
 from .models import Account
+
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:

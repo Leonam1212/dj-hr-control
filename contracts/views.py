@@ -2,11 +2,13 @@ from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
+
+from accounts.permissions import IsRH
 from employees.exceptions import EmployeeNotFoundError, ExistingContractError
 from employees.models import Employee
+
 from .models import Contract
 from .serializers import ContractSerializer
-from accounts.permissions import IsRH
 
 
 class CreateContractView(generics.CreateAPIView, generics.RetrieveAPIView):

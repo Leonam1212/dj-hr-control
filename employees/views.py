@@ -1,11 +1,13 @@
+import calendar
+from datetime import datetime
+
+from rest_framework import generics
 from rest_framework.request import Request
 from rest_framework.response import Response
-from datetime import datetime
-from rest_framework import generics
-import calendar
 
 from accounts.permissions import IsRH
 from shifts.models import Shift
+
 from .models import Employee
 from .serializers import EmployeeSerializer
 

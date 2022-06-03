@@ -1,9 +1,7 @@
 from django.urls import path
-from contracts.views import (
-    CreateContractView,
-    ListContractView,
-    UpdateAndDeleteContractView,
-)
+
+from contracts.views import (CreateContractView, ListContractView,
+                             UpdateAndDeleteContractView)
 
 urlpatterns = [
     path("contracts/create/<str:employee_id>/", CreateContractView.as_view()),

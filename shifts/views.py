@@ -1,7 +1,10 @@
 from rest_framework import generics
+
+from accounts.permissions import IsRH
 from shifts.models import Shift
 from shifts.serializers import ShiftSerializer
-from accounts.permissions import IsRH
+
+
 class ListShiftView(generics.ListCreateAPIView):
     permission_classes = [IsRH]
 

@@ -1,7 +1,8 @@
-from uuid import uuid4
 from datetime import datetime
+from uuid import uuid4
 
 from django.db import models
+
 
 def isweekend():
     if(datetime.now().weekday() == 0):

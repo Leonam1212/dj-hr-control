@@ -1,9 +1,8 @@
 from django.urls import path
-from personal_documents.views import (
-    CreatePersonalDocumentsView,
-    ListPersonalDocumentsView,
-    PersonalDocumentByIdView,
-)
+
+from personal_documents.views import (CreatePersonalDocumentsView,
+                                      ListPersonalDocumentsView,
+                                      PersonalDocumentByIdView)
 
 urlpatterns = [
     path(

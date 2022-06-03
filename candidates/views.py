@@ -1,8 +1,10 @@
 from rest_framework import generics
+
 from accounts.permissions import IsRH
-from .tools import getPdf, getAllPdfs
+
 from .models import Candidate
 from .serializers import CandidateSerializer
+from .tools import getAllPdfs, getPdf
 
 
 class CandidateView(generics.ListCreateAPIView):

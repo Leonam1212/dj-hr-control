@@ -1,5 +1,7 @@
 from django.urls import path
-from work_days.views import MakeCheckInView, WorkDayView, WorkDayByIdView, GetWorkDaysByPersonalCode
+
+from work_days.views import (GetWorkDaysByPersonalCode, MakeCheckInView,
+                             WorkDayByIdView, WorkDayView)
 
 urlpatterns = [
     path('work_days/', WorkDayView.as_view()),
