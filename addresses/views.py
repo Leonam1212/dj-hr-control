@@ -26,7 +26,7 @@ class CreateAddressView(generics.GenericAPIView):
 
             if not employee:
                 raise EmployeeNotFoundError
-            elif employee.first().contract:
+            elif employee.first().address:
                 raise ExistingAddressError
 
             new_address = serialized.save()
