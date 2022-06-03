@@ -2,16 +2,16 @@ from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from employees.exceptions import EmployeeNotFoundError, ExistingPersonalDocumentsError
 
-from employees.models import Employee
-
+from accounts.permissions import IsRH
 from contracts.models import Contract
 from contracts.serializers import ContractSerializer
+from employees.exceptions import (EmployeeNotFoundError,
+                                  ExistingPersonalDocumentsError)
+from employees.models import Employee
 
 from .models import Personal_document
 from .serializers import PersonalDocumentSerializer
-from accounts.permissions import IsRH
 
 
 class CreatePersonalDocumentsView(generics.GenericAPIView):

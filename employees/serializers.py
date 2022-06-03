@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
+from .models import Employee
+
 # from addresses.serializers import AddressSerializer
 # from contracts.serializers import ContractSerializer
 # from personal_documents.serializers import PersonalDocumentSerializer
 
-from .models import Employee
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

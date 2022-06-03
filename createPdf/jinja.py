@@ -1,5 +1,5 @@
 from jinja2 import Environment, FileSystemLoader
-from xhtml2pdf import pisa    
+from xhtml2pdf import pisa
 
 
 def createPDF(data):

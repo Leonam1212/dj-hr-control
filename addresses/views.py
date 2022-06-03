@@ -2,12 +2,13 @@ from django.core.exceptions import ValidationError
 from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from employees.exceptions import EmployeeNotFoundError, ExistingAddressError
 
+from accounts.permissions import IsRH
+from employees.exceptions import EmployeeNotFoundError, ExistingAddressError
 from employees.models import Employee
+
 from .models import Address
 from .serializers import AddressSerializer
-from accounts.permissions import IsRH
 
 
 class CreateAddressView(generics.GenericAPIView):
