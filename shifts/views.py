@@ -1,10 +1,9 @@
 from rest_framework import generics
 from shifts.models import Shift
 from shifts.serializers import ShiftSerializer
-# Create your views here.
-
+from accounts.permissions import IsRH
 class ListShiftView(generics.ListCreateAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
@@ -12,7 +11,7 @@ class ListShiftView(generics.ListCreateAPIView):
 
 
 class UpdateAndDeleteShiftView(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsRH]
+    permission_classes = [IsRH]
 
     queryset = Shift.objects.all()
     serializer_class = ShiftSerializer
